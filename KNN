@@ -1,0 +1,27 @@
+import numpy as np
+import pandas as pd
+
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+
+dataset = pd.read_csv(r'C:\Users\Mohammed Alsinani\Desktop\MIS\datse.csv')
+dataset.head()
+
+from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+dataset['High blood pressure'] = le.fit_transform(dataset['High blood pressure'])
+dataset.head(100)
+
+
+X = dataset.drop(columns = ['High blood pressure'])
+Y = dataset['High blood pressure']
+X_train, X_test, y_train, y_test = train_test_split(X,Y, test_size =0.3 )
+
+knn = KNeighborsClassifier(n_neighbors = 8)
+
+knn.fit(X_train, y_train)
+
+y_pred = knn.predict(X_test)
+from sklearn.metrics import accuracy_score
+print("Accuracy with k=8", accuracy_score(y_test, y_pred)*100)
+
